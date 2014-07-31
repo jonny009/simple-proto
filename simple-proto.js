@@ -25,10 +25,8 @@
         };
         this.templates = {};
         this.log = function () {
-            var i,
-                a = {};
             if (console && console.info) {
-                console.info((arguments.length === 1) ? arguments[0] : arguments);
+                console.info('**simple-proto**', (arguments.length === 1) ? arguments[0] : arguments);
             } else {
                 return false;
             }
@@ -78,6 +76,7 @@
         this.setTemplates();
         this.setController();
         this.setStyle();
+        this.log('Thanks for using simple-proto!');
     };
     SimpleProto.prototype.report = function () {
         return {
