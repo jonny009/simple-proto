@@ -1,10 +1,18 @@
 (function ($) {
-    var SimpleProto = function (prefix) {
+    var SimpleProto = function (options) {
+        var defaults = {
+                prefix: 'sp',
+                templateRoot: '',
+                scriptRoot: ''
+            },
+            settings = $.extend({}, defaults, options);
             this.app = {
-                elem: $(document).find('[data-' + prefix + '-app], [' + prefix + '-app]'),
-                controller: ($(document).find('[data-' + prefix + '-app], [' + prefix + '-app]').attr('data-' + prefix + '-app') || $(document).find('[data-' + prefix + '-app], [' + prefix + '-app]').attr(prefix + '-app')) + '.js'
+                elem: $(document).find('[data-' + settings.prefix + '-app], [' + settings.prefix + '-app]'),
+                controller: ($(document).find('[data-' + settings.prefix + '-app], [' + settings.prefix + '-app]').attr('data-' + settings.prefix + '-app') || $(document).find('[data-' + settings.prefix + '-app], [' + settings.prefix + '-app]').attr(settings.prefix + '-app')) + '.js'
             };
-            this.prefix = prefix;
+            this.prefix = settings.prefix;
+            this.templateRoot = settings.templateRoot;
+            this.scriptRoot = settings.scriptRoot;
             this.templates = {};
             this.log = function () {
                 var i,
@@ -39,13 +47,13 @@
         $.each(a, function (i) {
             this.templates[i] = {
                 elem: $(a[i]),
-                url: $(a[i]).attr('data-' + this.prefix + '-template') || $(a[i]).attr(this.prefix + '-template')
+                url: this.templateRoot + ($(a[i]).attr('data-' + this.prefix + '-template') || $(a[i]).attr(this.prefix + '-template'))+ '.html'
             };
             this.fetchTemplates(this.templates[i]);
         }.bind(this));
     };
     SimpleProto.prototype.setController = function () {
-        var scriptUrl = 'scripts/' + this.app.controller;
+        var scriptUrl = this.scriptRoot + this.app.controller;
         $.getScript(scriptUrl);
     };
     SimpleProto.prototype.build = function () {
