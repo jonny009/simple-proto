@@ -10,28 +10,28 @@
             att = {
                 pre: 'data-' + settings.prefix + '-app',
                 simple: settings.prefix + '-app'
-            };
-            console.log('[' + att.pre + '], [' + att.simple + ']');
-            this.app = {
-                elem: $(document).find('[' + att.pre + '], [' + att.simple + ']'),
-                controller: ($(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.pre) || $(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.simple)) + '.js',
-                stylesheet: ($(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.pre) || $(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.simple)) + '.css',
-            };
-            this.prefix = settings.prefix;
-            this.templateRoot = settings.templateRoot;
-            this.scriptRoot = settings.scriptRoot;
-            this.styleRoot = settings.styleRoot;
-            this.templates = {};
-            this.log = function () {
-                var i,
-                    a = {};
-                if (console && console.info) {
-                    console.info((arguments.length === 1) ? arguments[0] : arguments);
-                } else {
-                    return false;
-                }
-            };
+            },
+            $element = $(document).find('[' + att.pre + '], [' + att.simple + ']');
+        this.app = {
+            elem: $element,
+            controller: ($element.attr(att.pre) || $element.attr(att.simple)) + '.js',
+            stylesheet: ($element.attr(att.pre) || $element.attr(att.simple)) + '.css',
         };
+        this.prefix = settings.prefix;
+        this.templateRoot = settings.templateRoot;
+        this.scriptRoot = settings.scriptRoot;
+        this.styleRoot = settings.styleRoot;
+        this.templates = {};
+        this.log = function () {
+            var i,
+                a = {};
+            if (console && console.info) {
+                console.info((arguments.length === 1) ? arguments[0] : arguments);
+            } else {
+                return false;
+            }
+        };
+    };
     SimpleProto.prototype.fetchTemplates = function (obj) {
         if (typeof obj !== 'object' || !obj.elem || !obj.url) {
             return false;
