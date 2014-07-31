@@ -1,4 +1,4 @@
 simple-proto
 ============
 
-A simple prototyping framework for plu and play templates
+A simple prototyping framework for plug and play templates
