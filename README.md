@@ -16,7 +16,7 @@ A simple jQuery-based prototyping framework for plug and play templates.
 <script>
     var EX = $.createPrototype('example'),
         EXReport = EX.report(); // Report the details of the prototype
-        EX.build(); // Populate the templates and load the controller script
-        console.log(EXReport);
+    EX.build(); // Populate the templates and load the controller script
+    console.log(EXReport);
 </script>
 ```
