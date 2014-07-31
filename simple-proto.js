@@ -33,7 +33,7 @@
             }.bind(this)
         });
     };
-    SimpleProto.prototype.setTemplates = function (noFetch) {
+    SimpleProto.prototype.setTemplates = function () {
         var a = this.app.elem.find('[data-' + this.prefix + '-template], [' + this.prefix + '-template]'),
             i;
         $.each(a, function (i) {
@@ -41,9 +41,7 @@
                 elem: $(a[i]),
                 url: $(a[i]).attr('data-' + this.prefix + '-template') || $(a[i]).attr(this.prefix + '-template')
             };
-            if (!noFetch) {
-                this.fetchTemplates(this.templates[i]);
-            }
+            this.fetchTemplates(this.templates[i]);
         }.bind(this));
     };
     SimpleProto.prototype.setController = function () {
