@@ -18,9 +18,11 @@
             stylesheet: ($element.attr(att.pre) || $element.attr(att.simple)) + '.css',
         };
         this.prefix = settings.prefix;
-        this.templateRoot = settings.templateRoot;
-        this.scriptRoot = settings.scriptRoot;
-        this.styleRoot = settings.styleRoot;
+        this.roots = {
+            template: settings.templateRoot,
+            controller: settings.scriptRoot,
+            stylesheet: settings.styleRoot
+        };
         this.templates = {};
         this.log = function () {
             var i,
@@ -55,17 +57,17 @@
         $.each(a, function (i) {
             this.templates[i] = {
                 elem: $(a[i]),
-                url: this.templateRoot + ($(a[i]).attr('data-' + this.prefix + '-template') || $(a[i]).attr(this.prefix + '-template'))+ '.html'
+                url: this.roots.template + ($(a[i]).attr('data-' + this.prefix + '-template') || $(a[i]).attr(this.prefix + '-template'))+ '.html'
             };
             this.fetchTemplates(this.templates[i]);
         }.bind(this));
     };
     SimpleProto.prototype.setController = function () {
-        var scriptUrl = this.scriptRoot + this.app.controller;
+        var scriptUrl = this.roots.controller + this.app.controller;
         $.getScript(scriptUrl);
     };
     SimpleProto.prototype.setStyle = function () {
-        var styleLink = this.styleRoot + this.app.stylesheet;
+        var styleLink = this.roots.stylesheet + this.app.stylesheet;
             styleTemplate = '<link rel="stylesheet" href="' + styleLink + '">';
         this.app.elem.prepend(styleTemplate);
     };
