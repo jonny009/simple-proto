@@ -3,16 +3,24 @@
         var defaults = {
                 prefix: 'sp',
                 templateRoot: '',
-                scriptRoot: ''
+                scriptRoot: '',
+                styleRoot: ''
             },
-            settings = $.extend({}, defaults, options);
+            settings = $.extend({}, defaults, options),
+            att = {
+                pre: 'data-' + settings.prefix + '-app',
+                simple: settings.prefix + '-app'
+            };
+            console.log('[' + att.pre + '], [' + att.simple + ']');
             this.app = {
-                elem: $(document).find('[data-' + settings.prefix + '-app], [' + settings.prefix + '-app]'),
-                controller: ($(document).find('[data-' + settings.prefix + '-app], [' + settings.prefix + '-app]').attr('data-' + settings.prefix + '-app') || $(document).find('[data-' + settings.prefix + '-app], [' + settings.prefix + '-app]').attr(settings.prefix + '-app')) + '.js'
+                elem: $(document).find('[' + att.pre + '], [' + att.simple + ']'),
+                controller: ($(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.pre) || $(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.simple)) + '.js',
+                stylesheet: ($(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.pre) || $(document).find('[' + att.pre + '], [' + att.simple + ']').attr(att.simple)) + '.css',
             };
             this.prefix = settings.prefix;
             this.templateRoot = settings.templateRoot;
             this.scriptRoot = settings.scriptRoot;
+            this.styleRoot = settings.styleRoot;
             this.templates = {};
             this.log = function () {
                 var i,
@@ -56,17 +64,24 @@
         var scriptUrl = this.scriptRoot + this.app.controller;
         $.getScript(scriptUrl);
     };
+    SimpleProto.prototype.setStyle = function () {
+        var styleLink = this.styleRoot + this.app.stylesheet;
+            styleTemplate = '<link rel="stylesheet" href="' + styleLink + '">';
+        this.app.elem.prepend(styleTemplate);
+    };
     SimpleProto.prototype.build = function () {
         $.ajaxSetup({
             cache:true
         });
         this.setTemplates();
         this.setController();
+        this.setStyle();
     };
     SimpleProto.prototype.report = function () {
         return {
             wrapper: this.app.elem,
             controller: this.app.controller,
+            stylesheet: this.app.stylesheet,
             templates: this.templates,
             prefix: this.prefix
         };
